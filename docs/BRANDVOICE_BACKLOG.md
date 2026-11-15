@@ -19,7 +19,8 @@ Granular tasks for GitHub Projects. Generated for a 5-person academic team (4 ju
 
 1. Ensure `gh auth login` is active.
 2. Run: `bash scripts/create-backlog-issues.sh`
-3. Add issues to your GitHub Project board (bulk select in Issues tab).
+3. Create a GitHub Project: `gh project create --owner TomSebty --title "BrandVoice Kanban"` (requires your user token, not the bot).
+4. Link and import: `GH_PROJECT_NUMBER=<n> bash scripts/add-issues-to-project.sh`
 
 ## Label legend
 
