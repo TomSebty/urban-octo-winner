@@ -1,0 +1,994 @@
+[
+  {
+    "title": "[Wave 0] [Layer: DevOps] Initialize monorepo folder structure",
+    "body": "## Goal\nEstablish clear backend/frontend/infra paths for the team.\n\n## Step-by-step checklist\n- [ ] Create `backend/`, `frontend/`, `infra/`, `docs/` at repo root\n- [ ] Add root `README.md` with stack overview and local dev pointers\n- [ ] Add `.gitignore` for Python, Node, `.env`, `.netlify`\n- [ ] Document branch naming in `docs/CONTRIBUTING.md`\n\n## Acceptance criteria (DoD)\nAll folders exist; README links to each package; git status clean.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: DevOps] Add backend Python project with uv/poetry or pip-tools",
+    "body": "## Goal\nGive juniors a one-command backend dependency install.\n\n## Step-by-step checklist\n- [ ] Create `backend/pyproject.toml` with FastAPI, uvicorn, sqlalchemy, sqlmodel, pydantic\n- [ ] Pin Python 3.11+ in `.python-version`\n- [ ] Add `backend/requirements.txt` or lockfile\n- [ ] Add `make install-backend` or document `pip install -e .`\n\n## Acceptance criteria (DoD)\n`pip install` succeeds; `import fastapi` works in venv.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: DevOps] Add frontend Next.js 14+ App Router skeleton",
+    "body": "## Goal\nBootstrap deployable Next.js app with TypeScript.\n\n## Step-by-step checklist\n- [ ] Run `npx create-next-app@latest` in `frontend/` with TS, ESLint, Tailwind\n- [ ] Set `src/` app directory structure\n- [ ] Add `.env.example` with `NEXT_PUBLIC_API_URL`\n- [ ] Verify `npm run dev` starts on port 3000\n\n## Acceptance criteria (DoD)\nHome page loads locally; no TypeScript errors.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Frontend] Install and configure shadcn/ui + Tailwind theme",
+    "body": "## Goal\nShared UI kit for all screens.\n\n## Step-by-step checklist\n- [ ] Run `npx shadcn@latest init` in `frontend/`\n- [ ] Add Button, Input, Card, Label, Toast components\n- [ ] Set brand-neutral CSS variables in `globals.css`\n- [ ] Create `components/ui/` re-export barrel if needed\n\n## Acceptance criteria (DoD)\nshadcn Button renders on a test page.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: DevOps] Docker Compose for Postgres 16 + pgvector",
+    "body": "## Goal\nLocal DB matching production vector search needs.\n\n## Step-by-step checklist\n- [ ] Create `infra/docker-compose.yml` with `pgvector/pgvector:pg16` image\n- [ ] Expose port 5432; set POSTGRES_USER/PASSWORD/DB\n- [ ] Add volume for data persistence\n- [ ] Document `docker compose up -d` in README\n\n## Acceptance criteria (DoD)\npsql connects; `CREATE EXTENSION vector` succeeds.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: DB] Create initial Alembic migration bootstrap",
+    "body": "## Goal\nVersioned schema changes for the team.\n\n## Step-by-step checklist\n- [ ] Add Alembic to backend; `alembic init` under `backend/alembic`\n- [ ] Wire `DATABASE_URL` from env in `alembic.ini` / `env.py`\n- [ ] Add empty initial revision\n- [ ] Document `alembic upgrade head` in docs\n\n## Acceptance criteria (DoD)\n`alembic upgrade head` runs without error on empty DB.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Backend] FastAPI app factory and health endpoint",
+    "body": "## Goal\nRunnable API entrypoint for Render later.\n\n## Step-by-step checklist\n- [ ] Create `backend/app/main.py` with FastAPI app + CORS middleware\n- [ ] Mount `GET /health` returning `{\"status\":\"ok\"}`\n- [ ] Create `backend/app/core/config.py` using pydantic-settings\n- [ ] Add `uvicorn app.main:app --reload` run command in README\n\n## Acceptance criteria (DoD)\nSwagger at `/docs` shows health; curl returns 200.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Backend] SQLModel engine and session dependency",
+    "body": "## Goal\nReusable DB session for all routes.\n\n## Step-by-step checklist\n- [ ] Create `backend/app/db/session.py` with engine from `DATABASE_URL`\n- [ ] Implement `get_session()` FastAPI dependency\n- [ ] Add connection pool settings (pool_pre_ping)\n- [ ] Test session in a dummy route\n\n## Acceptance criteria (DoD)\nDependency injects session; no leak on request end.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Backend] Define shared Pydantic API error schema",
+    "body": "## Goal\nConsistent error JSON across endpoints.\n\n## Step-by-step checklist\n- [ ] Create `backend/app/schemas/common.py` with `ErrorDetail`, `APIError`\n- [ ] Add global exception handler mapping HTTPException\n- [ ] Map validation errors to 422 structured body\n- [ ] Document shape in OpenAPI\n\n## Acceptance criteria (DoD)\nInvalid body returns consistent 422 JSON.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Backend] Define Role enum and JWT payload contract",
+    "body": "## Goal\nSingle source of truth for RBAC types.\n\n## Step-by-step checklist\n- [ ] Create `backend/app/schemas/auth.py` with `Role` enum (owner, creator, admin)\n- [ ] Define `TokenPayload` with sub, role, brand_id optional\n- [ ] Define `LoginRequest` / `TokenResponse`\n- [ ] Export types for route modules\n\n## Acceptance criteria (DoD)\nTypes import cleanly; enum values documented.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Frontend] API client wrapper with fetch + base URL",
+    "body": "## Goal\nCentral HTTP layer for all screens.\n\n## Step-by-step checklist\n- [ ] Create `frontend/src/lib/api.ts` with `apiFetch(path, options)`\n- [ ] Read `NEXT_PUBLIC_API_URL`; attach JSON headers\n- [ ] Parse error responses into typed errors\n- [ ] Add simple retry off (document later)\n\n## Acceptance criteria (DoD)\nMock call to `/health` succeeds from browser.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Frontend] Auth token storage helper (memory + cookie pattern)",
+    "body": "## Goal\nPrepare JWT attachment without exposing secrets in logs.\n\n## Step-by-step checklist\n- [ ] Create `frontend/src/lib/auth-storage.ts`\n- [ ] Store access token in httpOnly cookie via Route Handler OR sessionStorage (document tradeoff)\n- [ ] Implement `getAccessToken`, `setAccessToken`, `clearAccessToken`\n- [ ] Never log token values\n\n## Acceptance criteria (DoD)\nUnit-level manual test: set/get/clear works.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: DevOps] GitHub Actions: backend lint + pytest stub",
+    "body": "## Goal\nCI gate before merge.\n\n## Step-by-step checklist\n- [ ] Add `.github/workflows/backend-ci.yml`\n- [ ] Steps: checkout, setup Python, install deps, ruff/black check, pytest\n- [ ] Add placeholder test `test_health`\n- [ ] Fail on lint errors\n\n## Acceptance criteria (DoD)\nCI green on main branch push.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: DevOps] GitHub Actions: frontend lint + build",
+    "body": "## Goal\nPrevent broken Vercel deploys.\n\n## Step-by-step checklist\n- [ ] Add `.github/workflows/frontend-ci.yml`\n- [ ] Steps: checkout, setup Node, npm ci, lint, `next build`\n- [ ] Cache node_modules\n- [ ] Use dummy API URL in build env\n\n## Acceptance criteria (DoD)\nCI build passes on PR.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: DevOps] Environment variable documentation matrix",
+    "body": "## Goal\nJunior-safe secrets checklist.\n\n## Step-by-step checklist\n- [ ] Create `docs/ENV_VARS.md` listing backend/frontend vars\n- [ ] Mark which are required for local vs Render/Vercel\n- [ ] Note Gemini, Supabase, JWT secret placeholders\n- [ ] Cross-link from README\n\n## Acceptance criteria (DoD)\nDoc reviewed; no secrets committed.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Backend] Structured logging setup",
+    "body": "## Goal\nDebuggable API in Render logs.\n\n## Step-by-step checklist\n- [ ] Add `logging` config in `backend/app/core/logging.py`\n- [ ] JSON or plain format with request_id middleware\n- [ ] Log startup, DB errors at ERROR\n- [ ] Document log levels in README\n\n## Acceptance criteria (DoD)\nRequest logs include method + path.\n\n## Estimated effort\n2h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: AI] LangGraph project skeleton module",
+    "body": "## Goal\nIsolate agent code from HTTP layer.\n\n## Step-by-step checklist\n- [ ] Create `backend/app/ai/graph/` package\n- [ ] Add `requirements` pin for `langgraph`, `langchain-google-genai`\n- [ ] Stub `build_graph()` returning pass-through state\n- [ ] Env var `GEMINI_API_KEY` in config\n\n## Acceptance criteria (DoD)\nImport graph module without API key in tests (mocked).\n\n## Estimated effort\n2h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Backend] CORS allowlist for local Next.js origin",
+    "body": "## Goal\nEnable browser calls during dev.\n\n## Step-by-step checklist\n- [ ] Read `CORS_ORIGINS` from env (comma-separated)\n- [ ] Add middleware in FastAPI\n- [ ] Allow credentials if using cookies\n- [ ] Test preflight from localhost:3000\n\n## Acceptance criteria (DoD)\nBrowser fetch from frontend no CORS error.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: DB] Create User SQLModel with role enum column",
+    "body": "## Goal\nPersist users and roles.\n\n## Step-by-step checklist\n- [ ] Add `backend/app/models/user.py` with id, email, hashed_password, role\n- [ ] Use SQLAlchemy Enum for Role\n- [ ] Unique index on email\n- [ ] Register model in metadata\n\n## Acceptance criteria (DoD)\nTable created via migration.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: DB] Create Brand SQLModel linked to owner",
+    "body": "## Goal\nOne brand per owner baseline (multi-brand later).\n\n## Step-by-step checklist\n- [ ] Fields: id, name, owner_user_id, created_at\n- [ ] FK to users\n- [ ] Relationship owner -> brands\n- [ ] Alembic migration\n\n## Acceptance criteria (DoD)\nMigration applies; FK enforced.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: DB] Create UserBrandMembership for creators",
+    "body": "## Goal\nAttach creators to a brand with role.\n\n## Step-by-step checklist\n- [ ] Model: user_id, brand_id, role\n- [ ] Unique (user_id, brand_id)\n- [ ] Migration + indexes\n- [ ] Seed doc example in docs\n\n## Acceptance criteria (DoD)\nCreator can belong to one brand in v1.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] Password hashing utilities with bcrypt",
+    "body": "## Goal\nSecure credential storage.\n\n## Step-by-step checklist\n- [ ] Add `passlib` or `bcrypt` helper hash/verify\n- [ ] Never log plaintext passwords\n- [ ] Unit tests for verify roundtrip\n- [ ] Use in registration service\n\n## Acceptance criteria (DoD)\nTests pass; hash differs from password.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] POST /auth/register endpoint",
+    "body": "## Goal\nNew users can sign up.\n\n## Step-by-step checklist\n- [ ] Route in `routes/auth.py`\n- [ ] Validate email format + password min length\n- [ ] Reject duplicate email 409\n- [ ] Return user DTO without password\n\n## Acceptance criteria (DoD)\nSwagger test creates user row.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] POST /auth/login endpoint returning JWT",
+    "body": "## Goal\nAuthenticated sessions.\n\n## Step-by-step checklist\n- [ ] Verify credentials\n- [ ] Issue JWT with exp, sub, role using `python-jose`\n- [ ] Return `TokenResponse`\n- [ ] Configurable `JWT_SECRET` + TTL\n\n## Acceptance criteria (DoD)\nLogin returns token; wrong password 401.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] JWT dependency get_current_user",
+    "body": "## Goal\nProtect routes.\n\n## Step-by-step checklist\n- [ ] Decode Bearer token\n- [ ] Load user from DB or fail 401\n- [ ] Attach `CurrentUser` to request state\n- [ ] Handle expired token\n\n## Acceptance criteria (DoD)\nProtected dummy route requires valid JWT.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] RBAC dependency require_roles",
+    "body": "## Goal\nEnforce role gates.\n\n## Step-by-step checklist\n- [ ] Factory `require_roles([Role.OWNER])`\n- [ ] Return 403 if role mismatch\n- [ ] Use on brand routes\n- [ ] Add tests for owner vs creator\n\n## Acceptance criteria (DoD)\nCreator blocked from admin-only route.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Login page UI with shadcn form",
+    "body": "## Goal\nUser login screen.\n\n## Step-by-step checklist\n- [ ] Page `app/login/page.tsx`\n- [ ] Email/password fields + submit\n- [ ] Call POST /auth/login via api client\n- [ ] Show toast on error\n\n## Acceptance criteria (DoD)\nValid creds redirect to dashboard.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Registration page UI",
+    "body": "## Goal\nSignup flow.\n\n## Step-by-step checklist\n- [ ] Page `app/register/page.tsx`\n- [ ] Fields: email, password, confirm, role selector (owner/creator) per product rules\n- [ ] POST /auth/register\n- [ ] Link to login\n\n## Acceptance criteria (DoD)\nNew user can register and then login.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Attach JWT to API client requests",
+    "body": "## Goal\nAuthenticated API calls.\n\n## Step-by-step checklist\n- [ ] Read token from storage\n- [ ] Set `Authorization: Bearer` header\n- [ ] On 401 redirect to login\n- [ ] Clear token on logout\n\n## Acceptance criteria (DoD)\nAuthenticated fetch works after login.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Auth guard layout for dashboard routes",
+    "body": "## Goal\nBlock unauthenticated access.\n\n## Step-by-step checklist\n- [ ] Create `app/(dashboard)/layout.tsx`\n- [ ] Check token client-side or middleware\n- [ ] Redirect to /login if missing\n- [ ] Optional loading state\n\n## Acceptance criteria (DoD)\nDirect URL to dashboard without token redirects.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: QA] Auth API integration tests",
+    "body": "## Goal\nRegression safety for auth.\n\n## Step-by-step checklist\n- [ ] pytest + TestClient\n- [ ] Tests: register, login, protected 401, wrong password\n- [ ] Use test DB or transaction rollbacks\n- [ ] Run in CI\n\n## Acceptance criteria (DoD)\nCI auth tests green.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-qa"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: DB] BrandProfile model (tone, audience, business_type)",
+    "body": "## Goal\nStore brand voice settings.\n\n## Step-by-step checklist\n- [ ] Extend brand or separate `brand_profiles` table\n- [ ] JSON or text fields for tone, audience, business_type\n- [ ] Migration\n- [ ] Relationship brand 1:1 profile\n\n## Acceptance criteria (DoD)\nCRUD possible at ORM level.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: DB] BannedWord model as child of brand",
+    "body": "## Goal\nEnforce prohibited terms.\n\n## Step-by-step checklist\n- [ ] Table brand_id + word (unique per brand)\n- [ ] Index on brand_id\n- [ ] Migration\n- [ ] Cascade delete with brand\n\n## Acceptance criteria (DoD)\nDuplicate word per brand rejected.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] GET /brands/{id}/profile",
+    "body": "## Goal\nRead brand voice.\n\n## Step-by-step checklist\n- [ ] Owner/creator/admin authz on brand\n- [ ] Return profile + banned words list\n- [ ] 404 if no profile\n- [ ] OpenAPI schema\n\n## Acceptance criteria (DoD)\nSwagger GET works for member.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] PUT /brands/{id}/profile (owner only)",
+    "body": "## Goal\nUpdate brand voice.\n\n## Step-by-step checklist\n- [ ] Creator gets 403\n- [ ] Upsert profile fields\n- [ ] Replace banned words list transactionally\n- [ ] Validate non-empty tone\n\n## Acceptance criteria (DoD)\nOwner update persists; creator 403.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] POST /brands create brand (owner)",
+    "body": "## Goal\nOnboarding new brand.\n\n## Step-by-step checklist\n- [ ] Create brand + empty profile\n- [ ] Set current user as owner\n- [ ] Return brand id\n- [ ] Validate name length\n\n## Acceptance criteria (DoD)\nOwner has one brand created.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Brand profile settings page",
+    "body": "## Goal\nUI for voice + banned words.\n\n## Step-by-step checklist\n- [ ] Route `app/(dashboard)/brand/settings/page.tsx`\n- [ ] Form fields tone, audience, business type\n- [ ] Tag input for banned words\n- [ ] Save calls PUT profile\n\n## Acceptance criteria (DoD)\nOwner saves; refresh shows data.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Read-only brand profile for creators",
+    "body": "## Goal\nCreators see but cannot edit rules.\n\n## Step-by-step checklist\n- [ ] Same page hides Save when role=creator\n- [ ] Show tooltip explaining restriction\n- [ ] Fetch profile on load\n- [ ] Handle 403 gracefully\n\n## Acceptance criteria (DoD)\nCreator sees fields disabled.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: DB] PastPost model for ingested rows",
+    "body": "## Goal\nStore raw past posts.\n\n## Step-by-step checklist\n- [ ] Fields: brand_id, text, source_row, created_at\n- [ ] Optional metadata JSON\n- [ ] Migration\n- [ ] Index brand_id\n\n## Acceptance criteria (DoD)\nRows insert after CSV parse.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: DB] PostEmbedding model with pgvector column",
+    "body": "## Goal\nVector storage for RAG.\n\n## Step-by-step checklist\n- [ ] Enable vector extension in migration\n- [ ] Column `embedding vector(768)` or per Gemini dim\n- [ ] FK to past_post_id\n- [ ] IVFFlat or HNSW index note in migration comment\n\n## Acceptance criteria (DoD)\nSimilarity query runs in SQL.\n\n## Estimated effort\n2h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-1-core",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] CSV upload endpoint multipart",
+    "body": "## Goal\nAccept past posts file.\n\n## Step-by-step checklist\n- [ ] POST /brands/{id}/ingest/csv\n- [ ] Parse UTF-8 CSV with pandas or csv module\n- [ ] Required column `text`\n- [ ] Return row count + validation errors\n\n## Acceptance criteria (DoD)\nInvalid CSV returns 400 with details.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] Excel upload support (.xlsx)",
+    "body": "## Goal\nSecond file format.\n\n## Step-by-step checklist\n- [ ] Detect xlsx via openpyxl\n- [ ] Map first sheet rows\n- [ ] Same validation as CSV\n- [ ] Max file size limit\n\n## Acceptance criteria (DoD)\nSample xlsx ingests.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] Row validation service for ingest",
+    "body": "## Goal\nReject bad rows early.\n\n## Step-by-step checklist\n- [ ] Skip empty text\n- [ ] Max length per post\n- [ ] Collect error report array\n- [ ] Transactional insert valid rows only (configurable)\n\n## Acceptance criteria (DoD)\nMixed file returns summary counts.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: AI] Gemini Embeddings-1 batch embed job",
+    "body": "## Goal\nGenerate vectors for new rows.\n\n## Step-by-step checklist\n- [ ] Service `embedding_service.py` calling Google API\n- [ ] Batch N texts per request\n- [ ] Store vectors in PostEmbedding\n- [ ] Handle rate limits with backoff\n\n## Acceptance criteria (DoD)\nAfter ingest, embeddings row count matches posts.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-1-core",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] Background task trigger for embedding generation",
+    "body": "## Goal\nNon-blocking HTTP response.\n\n## Step-by-step checklist\n- [ ] FastAPI BackgroundTasks or simple async queue\n- [ ] POST ingest returns job_id\n- [ ] GET job status endpoint\n- [ ] Log failures per row\n\n## Acceptance criteria (DoD)\nUpload returns before embed completes; status shows done.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] CSV upload UI with drag-drop",
+    "body": "## Goal\nBrand owner uploads knowledge.\n\n## Step-by-step checklist\n- [ ] Page under brand settings or ingest tab\n- [ ] File input + progress indicator\n- [ ] Display validation report\n- [ ] Poll job status\n\n## Acceptance criteria (DoD)\nSuccessful upload shows row count.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: AI] RAG retrieve_top_k service function",
+    "body": "## Goal\nFetch similar past posts.\n\n## Step-by-step checklist\n- [ ] Query pgvector with cosine distance\n- [ ] Parameter K default 5\n- [ ] Filter by brand_id\n- [ ] Return text snippets for prompt\n\n## Acceptance criteria (DoD)\nUnit test with fixed vectors returns expected order.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-1-core",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: AI] Format few-shot context block from retrieved posts",
+    "body": "## Goal\nPrompt-ready string.\n\n## Step-by-step checklist\n- [ ] Template with numbered examples\n- [ ] Truncate total tokens budget\n- [ ] Include in agent state\n- [ ] Log retrieval ids for debug\n\n## Acceptance criteria (DoD)\nOutput string under char limit.\n\n## Estimated effort\n1h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] GET /brands/{id}/rag/preview debug endpoint",
+    "body": "## Goal\nVerify retrieval without full generation.\n\n## Step-by-step checklist\n- [ ] Query param `q`\n- [ ] Return top-K posts + scores\n- [ ] Owner/creator only\n- [ ] Disable in production flag optional\n\n## Acceptance criteria (DoD)\nSwagger preview returns matches.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: DB] ContentPost model (draft baseline)",
+    "body": "## Goal\nPersist generated content.\n\n## Step-by-step checklist\n- [ ] Fields: brand_id, author_id, format enum (text), title, body_json, status\n- [ ] Status enum: draft, pending, approved, rejected\n- [ ] Migration\n- [ ] Timestamps\n\n## Acceptance criteria (DoD)\nInsert draft row.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] Pydantic schema Standard Text Post output",
+    "body": "## Goal\nStructured generation contract.\n\n## Step-by-step checklist\n- [ ] `TextPostOutput` with hook, body, cta\n- [ ] Validators for min/max length\n- [ ] Export JSON schema\n- [ ] Unit test validation failures\n\n## Acceptance criteria (DoD)\nInvalid JSON rejected by Pydantic.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: AI] LangGraph node: Researcher extracts brief angles",
+    "body": "## Goal\nAgent 1 implementation.\n\n## Step-by-step checklist\n- [ ] State fields: goal, audience, angles\n- [ ] Prompt template using brand profile\n- [ ] Gemini call with structured output\n- [ ] Parse into state\n\n## Acceptance criteria (DoD)\nGiven brief, state populated.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-1-core",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: AI] LangGraph node: Creator generates TextPost JSON",
+    "body": "## Goal\nAgent 2 for wave 1 scope.\n\n## Step-by-step checklist\n- [ ] Use Researcher output + RAG context\n- [ ] Structured output to TextPostOutput\n- [ ] Temperature config\n- [ ] Save raw LLM response in state for debug\n\n## Acceptance criteria (DoD)\nValid Pydantic object produced.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-1-core",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: AI] Wire minimal linear graph Researcher -> Creator",
+    "body": "## Goal\nFirst pipeline without critic.\n\n## Step-by-step checklist\n- [ ] Define StateGraph\n- [ ] Compile graph\n- [ ] Single entry `run_text_post_pipeline(brief)`\n- [ ] Integration test with mocked LLM\n\n## Acceptance criteria (DoD)\nGraph runs end-to-end mocked.\n\n## Estimated effort\n2h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-1-core",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] POST /brands/{id}/generate/text",
+    "body": "## Goal\nHTTP trigger for generation.\n\n## Step-by-step checklist\n- [ ] Body: user brief string\n- [ ] Invoke graph; persist ContentPost as draft\n- [ ] Return post id + content\n- [ ] Timeout handling\n\n## Acceptance criteria (DoD)\nSwagger generates draft in DB.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Create text post page with brief textarea",
+    "body": "## Goal\nPrimary creation UX.\n\n## Step-by-step checklist\n- [ ] Page `content/new/text`\n- [ ] Brief input + Generate button\n- [ ] Loading skeleton\n- [ ] Show generated preview card\n\n## Acceptance criteria (DoD)\nGenerate shows hook/body/cta.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Content library list page (basic)",
+    "body": "## Goal\nView drafts.\n\n## Step-by-step checklist\n- [ ] Table/cards: title, status, date\n- [ ] GET /brands/{id}/posts\n- [ ] Link to detail\n- [ ] Empty state UI\n\n## Acceptance criteria (DoD)\nLists posts after generation.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] GET /brands/{id}/posts list with filters",
+    "body": "## Goal\nAPI for library.\n\n## Step-by-step checklist\n- [ ] Query params status, date_from, date_to\n- [ ] Pagination limit/offset\n- [ ] Sort by updated_at desc\n- [ ] Authz brand member\n\n## Acceptance criteria (DoD)\nFilters work in Swagger.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] Pydantic CarouselPost schema",
+    "body": "## Goal\nCarousel structured output.\n\n## Step-by-step checklist\n- [ ] Fields: hook, slides[], cta\n- [ ] Each slide: title, body\n- [ ] Max slides validator\n- [ ] JSON schema export\n\n## Acceptance criteria (DoD)\nValidation tests pass.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] Pydantic ImagePost schema with image prompt",
+    "body": "## Goal\nImage post + generation prompt fields.\n\n## Step-by-step checklist\n- [ ] Caption, hashtags, image_prompt object (style, lighting, angle, aspect_ratio)\n- [ ] Validators for prompt completeness\n- [ ] Tests\n- [ ] Document in docs/SCHEMAS.md\n\n## Acceptance criteria (DoD)\nSample JSON validates.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] Pydantic ReelsScript schema",
+    "body": "## Goal\nReels production script structure.\n\n## Step-by-step checklist\n- [ ] hook_3s, shots[], on_screen_text, voiceover, editing_cues, caption, hashtags\n- [ ] Shot: angle, duration_sec, action\n- [ ] Max duration sanity check\n- [ ] Tests\n\n## Acceptance criteria (DoD)\nComplex sample validates.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: DB] Extend ContentPost format enum + body_json",
+    "body": "## Goal\nSupport all formats in one table.\n\n## Step-by-step checklist\n- [ ] Migration add format values\n- [ ] Ensure body_json flexible\n- [ ] Backfill default text\n- [ ] Index format\n\n## Acceptance criteria (DoD)\nAll formats storable.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: AI] Creator node branch by content format",
+    "body": "## Goal\nRoute generation by type.\n\n## Step-by-step checklist\n- [ ] Parameter `content_format` in state\n- [ ] Select output model class\n- [ ] Update prompts per format\n- [ ] Tests per format mocked\n\n## Acceptance criteria (DoD)\nThree formats produce distinct shapes.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] POST generate endpoints for carousel/image/reels",
+    "body": "## Goal\nHTTP for each format.\n\n## Step-by-step checklist\n- [ ] Routes `/generate/carousel` etc.\n- [ ] Shared pipeline invoke\n- [ ] Persist with correct format enum\n- [ ] OpenAPI examples\n\n## Acceptance criteria (DoD)\nEach endpoint creates row.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Content format picker on new post flow",
+    "body": "## Goal\nUX to select type.\n\n## Step-by-step checklist\n- [ ] Tabs or radio: Text, Carousel, Image, Reels\n- [ ] Route per format\n- [ ] Pass format to API\n- [ ] Keep shared brief component\n\n## Acceptance criteria (DoD)\nPicker switches forms.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Carousel preview component",
+    "body": "## Goal\nDisplay slides.\n\n## Step-by-step checklist\n- [ ] Card per slide\n- [ ] Hook + CTA highlighted\n- [ ] Responsive layout\n- [ ] Storybook optional\n\n## Acceptance criteria (DoD)\nRenders sample JSON.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Image post preview with prompt panel",
+    "body": "## Goal\nShow caption + copy prompt.\n\n## Step-by-step checklist\n- [ ] Copy-to-clipboard for image prompt\n- [ ] Display aspect ratio badge\n- [ ] Caption area\n- [ ] Placeholder image\n\n## Acceptance criteria (DoD)\nCopy works.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Reels script preview with shot timeline",
+    "body": "## Goal\nReadable shot list.\n\n## Step-by-step checklist\n- [ ] Vertical timeline UI\n- [ ] Duration labels\n- [ ] Sections: hook, VO, music cues\n- [ ] Mobile-friendly\n\n## Acceptance criteria (DoD)\nSample script renders.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: AI] Deterministic critic: banned words check",
+    "body": "## Goal\nRegex/list scan on output text.\n\n## Step-by-step checklist\n- [ ] Flatten JSON text fields\n- [ ] Case-insensitive banned word match\n- [ ] Return violations list\n- [ ] Unit tests\n\n## Acceptance criteria (DoD)\nBanned word fails check.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: AI] Deterministic critic: length and CTA rules",
+    "body": "## Goal\nEnforce min/max lengths.\n\n## Step-by-step checklist\n- [ ] Per-format rules config\n- [ ] CTA required for text/carousel\n- [ ] Return structured feedback\n- [ ] Tests edge lengths\n\n## Acceptance criteria (DoD)\nToo short fails with message.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: AI] LLM critic node with pass/fail + feedback",
+    "body": "## Goal\nAgent 3 semantic quality gate.\n\n## Step-by-step checklist\n- [ ] Prompt with rubric + brand tone\n- [ ] Output pass boolean + notes\n- [ ] Merge with deterministic results\n- [ ] Log decision\n\n## Acceptance criteria (DoD)\nMock test fail triggers feedback.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: AI] Conditional edge Creator retry max 2",
+    "body": "## Goal\nLoop control in LangGraph.\n\n## Step-by-step checklist\n- [ ] Increment retry counter in state\n- [ ] Route fail -> creator if retries < 2 else end\n- [ ] Attach critic feedback to creator prompt\n- [ ] Graph diagram in docs\n\n## Acceptance criteria (DoD)\nThird fail exits with last draft.\n\n## Estimated effort\n2h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] Expose critic violations in generate response",
+    "body": "## Goal\nFrontend visibility.\n\n## Step-by-step checklist\n- [ ] Include `warnings` array in API response\n- [ ] Optional strict mode 422 on fail\n- [ ] Document behavior\n- [ ] Swagger example\n\n## Acceptance criteria (DoD)\nFailed critic shows warnings.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] POST /posts/{id}/edit-ai quick actions",
+    "body": "## Goal\nShorter / More formal transforms.\n\n## Step-by-step checklist\n- [ ] Enum action + optional custom_prompt\n- [ ] Load post body; call Gemini edit\n- [ ] Validate still matches Pydantic schema\n- [ ] Save new version or overwrite draft\n\n## Acceptance criteria (DoD)\nShorter reduces length.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: AI] AI edit prompt templates per format",
+    "body": "## Goal\nConsistent edits.\n\n## Step-by-step checklist\n- [ ] Template files in `prompts/edit/`\n- [ ] Preserve JSON structure\n- [ ] Temperature low\n- [ ] Tests with mock\n\n## Acceptance criteria (DoD)\nEdit returns valid schema.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Inline editor toolbar on post detail",
+    "body": "## Goal\nQuick actions UI.\n\n## Step-by-step checklist\n- [ ] Buttons Shorter, More formal\n- [ ] Custom prompt dialog\n- [ ] Optimistic loading state\n- [ ] Refresh preview\n\n## Acceptance criteria (DoD)\nEdit updates preview.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: DevOps] Supabase Storage bucket setup documentation",
+    "body": "## Goal\nTeam configures bucket.\n\n## Step-by-step checklist\n- [ ] Doc steps in `docs/SUPABASE.md`\n- [ ] Bucket name, public vs signed URLs\n- [ ] RLS policy outline\n- [ ] Env vars SUPABASE_URL, KEY\n\n## Acceptance criteria (DoD)\nLead confirms bucket exists.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: DB] MediaAttachment model",
+    "body": "## Goal\nLink files to posts.\n\n## Step-by-step checklist\n- [ ] Fields: post_id, storage_path, mime, kind (image|video)\n- [ ] Migration\n- [ ] FK cascade\n- [ ] created_at\n\n## Acceptance criteria (DoD)\nRow links to post.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] Supabase signed upload URL endpoint",
+    "body": "## Goal\nSecure client uploads.\n\n## Step-by-step checklist\n- [ ] POST /posts/{id}/media/upload-url\n- [ ] Validate post belongs to user\n- [ ] Return signed URL + path\n- [ ] MIME allowlist\n\n## Acceptance criteria (DoD)\ncurl gets upload URL.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] POST /posts/{id}/media/complete",
+    "body": "## Goal\nFinalize attachment record.\n\n## Step-by-step checklist\n- [ ] Body: path, mime, kind\n- [ ] Insert MediaAttachment\n- [ ] Return public/signed read URL\n- [ ] Max size validation message\n\n## Acceptance criteria (DoD)\nDB row after upload.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Media upload widget on post detail",
+    "body": "## Goal\nAttach image/video.\n\n## Step-by-step checklist\n- [ ] File picker + progress\n- [ ] PUT to signed URL\n- [ ] Call complete endpoint\n- [ ] Thumbnail preview\n\n## Acceptance criteria (DoD)\nImage shows on post.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: DB] ApprovalDecision model with comments",
+    "body": "## Goal\nAudit trail.\n\n## Step-by-step checklist\n- [ ] post_id, reviewer_id, decision enum, comment, created_at\n- [ ] Migration\n- [ ] Latest decision drives status\n- [ ] Index post_id\n\n## Acceptance criteria (DoD)\nHistory stored.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-db"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] POST /posts/{id}/submit for approval",
+    "body": "## Goal\nCreator submits draft.\n\n## Step-by-step checklist\n- [ ] Status draft -> pending\n- [ ] 403 if not creator or already pending\n- [ ] Notify owner hook stub\n- [ ] Return updated post\n\n## Acceptance criteria (DoD)\nStatus changes.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] POST /posts/{id}/approve and /reject (owner)",
+    "body": "## Goal\nOwner decisions.\n\n## Step-by-step checklist\n- [ ] Require comment on reject\n- [ ] approve -> approved\n- [ ] Owner self-post auto-approve on create path\n- [ ] Admin read-only override optional\n\n## Acceptance criteria (DoD)\nOwner approve works.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] Auto-approve when Brand Owner creates post",
+    "body": "## Goal\nBusiness rule.\n\n## Step-by-step checklist\n- [ ] In generate endpoint detect role\n- [ ] Set status approved immediately\n- [ ] Skip pending\n- [ ] Test both roles\n\n## Acceptance criteria (DoD)\nOwner post never pending.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Submit for approval button (creator)",
+    "body": "## Goal\nWorkflow action.\n\n## Step-by-step checklist\n- [ ] Visible when draft + creator\n- [ ] Confirmation dialog\n- [ ] Toast success\n- [ ] Update status badge\n\n## Acceptance criteria (DoD)\nSubmits correctly.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Owner approval queue page",
+    "body": "## Goal\nPending list.\n\n## Step-by-step checklist\n- [ ] Filter status=pending\n- [ ] Approve/Reject with comment modal\n- [ ] Refresh list\n- [ ] Empty state\n\n## Acceptance criteria (DoD)\nOwner clears queue.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Content library status filters + date range",
+    "body": "## Goal\nFull library filters.\n\n## Step-by-step checklist\n- [ ] Filter chips for all statuses\n- [ ] Date picker\n- [ ] Sync to query params\n- [ ] Persist in URL\n\n## Acceptance criteria (DoD)\nURL ?status=pending works.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] GET /admin/users (system admin)",
+    "body": "## Goal\nList all users.\n\n## Step-by-step checklist\n- [ ] require Role.ADMIN\n- [ ] Pagination\n- [ ] Mask sensitive fields\n- [ ] Search email\n\n## Acceptance criteria (DoD)\nNon-admin 403.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] POST /admin/users/{id}/block",
+    "body": "## Goal\nBlock user login.\n\n## Step-by-step checklist\n- [ ] Set is_blocked flag on user\n- [ ] Invalidate tokens optional stub\n- [ ] Audit log\n- [ ] Tests\n\n## Acceptance criteria (DoD)\nBlocked user login 403.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Admin users table page",
+    "body": "## Goal\nAdmin UI.\n\n## Step-by-step checklist\n- [ ] Route `/admin/users` guarded\n- [ ] Block button with confirm\n- [ ] Search input\n- [ ] Role badges\n\n## Acceptance criteria (DoD)\nAdmin sees all users.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: QA] Evaluation dataset file with 30 fixed prompts",
+    "body": "## Goal\nBenchmark input fixture.\n\n## Step-by-step checklist\n- [ ] Create `eval/prompts.json` with 30 briefs\n- [ ] Tag by format mix\n- [ ] Version field\n- [ ] README how to extend\n\n## Acceptance criteria (DoD)\nFile committed; 30 entries.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-qa"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: AI] Naive baseline single-prompt generator",
+    "body": "## Goal\nComparison arm.\n\n## Step-by-step checklist\n- [ ] Function ignoring agents/RAG\n- [ ] Same output schemas\n- [ ] Log latency + token usage\n- [ ] CLI entrypoint\n\n## Acceptance criteria (DoD)\nRuns 1 prompt mocked.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: AI] Run multi-agent+RAG eval harness",
+    "body": "## Goal\nBatch evaluation runner.\n\n## Step-by-step checklist\n- [ ] Loop 30 prompts through full graph\n- [ ] Capture outputs to `eval/results/`\n- [ ] Record pass/fail critic stats\n- [ ] Configurable via env\n\n## Acceptance criteria (DoD)\nProduces JSON results file.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: AI] Ragas or DeepEval metrics integration",
+    "body": "## Goal\nQuantitative scores.\n\n## Step-by-step checklist\n- [ ] Install ragas/deepeval\n- [ ] Metrics: faithfulness, relevancy per format\n- [ ] Compare baseline vs pipeline\n- [ ] Save scores CSV\n\n## Acceptance criteria (DoD)\nCSV has 30 rows metrics.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-ai"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: QA] Generate comparison charts script",
+    "body": "## Goal\nVisual report for paper/demo.\n\n## Step-by-step checklist\n- [ ] Python matplotlib/plotly script\n- [ ] Bar charts latency, pass rate, metric means\n- [ ] Output PNG to `eval/charts/`\n- [ ] Document in eval README\n\n## Acceptance criteria (DoD)\nPNG files generated.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-qa"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: DevOps] Render backend deploy blueprint",
+    "body": "## Goal\nProduction API hosting.\n\n## Step-by-step checklist\n- [ ] Add `render.yaml` or manual doc\n- [ ] Build command, start command\n- [ ] Env vars checklist\n- [ ] Health check path /health\n\n## Acceptance criteria (DoD)\nDeploy succeeds on Render.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: DevOps] Vercel frontend project link + env",
+    "body": "## Goal\nProduction UI.\n\n## Step-by-step checklist\n- [ ] Document vercel.json if needed\n- [ ] Set NEXT_PUBLIC_API_URL production\n- [ ] Preview env for PRs\n- [ ] Smoke test login\n\n## Acceptance criteria (DoD)\nProduction URL loads.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: DevOps] Production Postgres + pgvector provisioning",
+    "body": "## Goal\nLive database.\n\n## Step-by-step checklist\n- [ ] Document Supabase/Neon/RDS choice\n- [ ] Run migrations on prod\n- [ ] Rotate JWT secret\n- [ ] Backup note\n\n## Acceptance criteria (DoD)\nApp connects to prod DB.\n\n## Estimated effort\n2h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-devops"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: QA] End-to-end smoke test checklist",
+    "body": "## Goal\nPre-demo validation.\n\n## Step-by-step checklist\n- [ ] Markdown checklist: register, brand, ingest, generate, approve\n- [ ] Assign owners per step\n- [ ] Sign-off section\n- [ ] Link to eval charts\n\n## Acceptance criteria (DoD)\nTeam completes once.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-qa"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: Frontend] Polish loading/error states app-wide",
+    "body": "## Goal\nUX hardening.\n\n## Step-by-step checklist\n- [ ] Audit pages for error boundaries\n- [ ] Consistent toast messages\n- [ ] 404 page\n- [ ] Skeleton loaders missing screens\n\n## Acceptance criteria (DoD)\nNo blank screens on error.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: Frontend] Responsive layout pass for dashboard",
+    "body": "## Goal\nMobile-friendly demo.\n\n## Step-by-step checklist\n- [ ] Tailwind breakpoints on sidebar\n- [ ] Collapse nav\n- [ ] Test library table scroll\n- [ ] Fix overflow issues\n\n## Acceptance criteria (DoD)\n375px width usable.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: DB] Multi-brand membership for social managers",
+    "body": "## Goal\nUser belongs to many brands.\n\n## Step-by-step checklist\n- [ ] Adjust queries for active_brand_id on user session\n- [ ] Migration if needed\n- [ ] Document limitation removal\n- [ ] Indexes\n\n## Acceptance criteria (DoD)\nUser switches context.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-db",
+      "bonus"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: Frontend] Brand switcher dropdown in header",
+    "body": "## Goal\nMulti-brand UX.\n\n## Step-by-step checklist\n- [ ] List brands from API\n- [ ] Set active brand in context\n- [ ] Reload data on switch\n- [ ] Persist selection localStorage\n\n## Acceptance criteria (DoD)\nSwitch updates library.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-frontend",
+      "bonus"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: Backend] GET /users/me/brands list endpoint",
+    "body": "## Goal\nBrands for switcher.\n\n## Step-by-step checklist\n- [ ] Return id, name, role\n- [ ] Auth required\n- [ ] Pagination if many\n- [ ] Tests\n\n## Acceptance criteria (DoD)\nSwitcher populated.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-backend",
+      "bonus"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: AI] Diff-based learning from user edits",
+    "body": "## Goal\nSuggest banned word updates.\n\n## Step-by-step checklist\n- [ ] Compare pre/post edit text\n- [ ] Extract added words/phrases\n- [ ] Propose ban list additions endpoint\n- [ ] Owner confirm before save\n\n## Acceptance criteria (DoD)\nSuggestion list appears.\n\n## Estimated effort\n3h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-ai",
+      "bonus"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: AI] LangSmith tracing optional wrapper",
+    "body": "## Goal\nObservability.\n\n## Step-by-step checklist\n- [ ] Env `LANGSMITH_API_KEY`\n- [ ] Wrap graph invoke with tracing\n- [ ] Document dashboard link\n- [ ] Disable by default\n\n## Acceptance criteria (DoD)\nTraces appear when enabled.\n\n## Estimated effort\n2h\n\n## Difficulty\nHard - Tech Lead\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-ai",
+      "bonus"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: Frontend] Monthly calendar view of posts",
+    "body": "## Goal\nPlanning UI.\n\n## Step-by-step checklist\n- [ ] Calendar component\n- [ ] Posts by scheduled/approved date\n- [ ] Month navigation\n- [ ] Click to open post\n\n## Acceptance criteria (DoD)\nPosts show on dates.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-frontend",
+      "bonus"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: Backend] Auto-publish webhook stub",
+    "body": "## Goal\nFuture social API.\n\n## Step-by-step checklist\n- [ ] POST /posts/{id}/publish stub returns 501\n- [ ] Document future integration\n- [ ] Feature flag\n- [ ] No-op safe\n\n## Acceptance criteria (DoD)\nReturns documented message.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-backend",
+      "bonus"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: AI] Direct AI image generation endpoint stub",
+    "body": "## Goal\nFuture image API.\n\n## Step-by-step checklist\n- [ ] POST /posts/{id}/generate-image stub\n- [ ] Validate image post format\n- [ ] Return 501 or mock URL\n- [ ] Feature flag\n\n## Acceptance criteria (DoD)\nSwagger documents endpoint.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-ai",
+      "bonus"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: QA] Document Wave 1 vertical slice ownership matrix",
+    "body": "## Goal\nClarify who ships which slice.\n\n## Step-by-step checklist\n- [ ] Create `docs/WAVES.md` with 4 slice names\n- [ ] Map DB+API+UI per developer\n- [ ] Definition of done per slice\n- [ ] Review in standup\n\n## Acceptance criteria (DoD)\nMatrix approved by lead.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-qa"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Dashboard home shell with sidebar nav",
+    "body": "## Goal\nNavigation skeleton.\n\n## Step-by-step checklist\n- [ ] Layout sidebar: Library, New Post, Brand, Settings\n- [ ] Highlight active route\n- [ ] User menu logout\n- [ ] Brand name in header\n\n## Acceptance criteria (DoD)\nAll links route correctly.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] GET /posts/{id} detail endpoint",
+    "body": "## Goal\nSingle post fetch.\n\n## Step-by-step checklist\n- [ ] Include body_json, status, author\n- [ ] Brand authz\n- [ ] 404 handling\n- [ ] Embed media attachments\n\n## Acceptance criteria (DoD)\nDetail JSON complete.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Frontend] Post detail page read-only view",
+    "body": "## Goal\nView single draft.\n\n## Step-by-step checklist\n- [ ] Route `content/[id]`\n- [ ] Render text post structure\n- [ ] Status badge\n- [ ] Back link\n\n## Acceptance criteria (DoD)\nOpens from library.\n\n## Estimated effort\n2h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-1-core",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] PATCH /posts/{id} manual save draft",
+    "body": "## Goal\nHuman edits without AI.\n\n## Step-by-step checklist\n- [ ] Validate schema per format\n- [ ] Only draft editable\n- [ ] Creator/owner rules\n- [ ] updated_at bump\n\n## Acceptance criteria (DoD)\nManual edit persists.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Frontend] Editable fields on post detail for drafts",
+    "body": "## Goal\nManual content tweak.\n\n## Step-by-step checklist\n- [ ] Controlled inputs per format\n- [ ] Save button\n- [ ] Disable when pending/approved\n- [ ] Validation errors\n\n## Acceptance criteria (DoD)\nSave updates API.\n\n## Estimated effort\n3h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: QA] Seed script for demo brand + users",
+    "body": "## Goal\nDemo data for presentation.\n\n## Step-by-step checklist\n- [ ] Script `scripts/seed_demo.py`\n- [ ] Owner, creator, sample posts\n- [ ] Document credentials in `.env.example` only\n- [ ] Idempotent run\n\n## Acceptance criteria (DoD)\nSeed runs twice safely.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-qa"
+    ]
+  },
+  {
+    "title": "[Wave 2] [Layer: Backend] Email notification stub on submit",
+    "body": "## Goal\nPlaceholder for owner alert.\n\n## Step-by-step checklist\n- [ ] Log INFO on submit with owner email\n- [ ] Interface NotificationService\n- [ ] No-op impl default\n- [ ] Swappable later\n\n## Acceptance criteria (DoD)\nLog line appears.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-2-mvp",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 1] [Layer: Backend] System Admin bootstrap CLI",
+    "body": "## Goal\nCreate first admin user.\n\n## Step-by-step checklist\n- [ ] `python -m app.cli create-admin email`\n- [ ] Hash password prompt\n- [ ] Role admin\n- [ ] Doc one-time use\n\n## Acceptance criteria (DoD)\nAdmin can login.\n\n## Estimated effort\n1h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-1-core",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: Backend] Rate limit middleware on generate endpoints",
+    "body": "## Goal\nProtect Gemini quota.\n\n## Step-by-step checklist\n- [ ] slowapi or custom per-user limit\n- [ ] 429 response\n- [ ] Config RATE_LIMIT\n- [ ] Test exceed\n\n## Acceptance criteria (DoD)\n6th rapid call 429.\n\n## Estimated effort\n2h\n\n## Difficulty\nMedium\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-backend"
+    ]
+  },
+  {
+    "title": "[Wave 3] [Layer: QA] Security review checklist JWT + RBAC",
+    "body": "## Goal\nAcademic security sign-off.\n\n## Step-by-step checklist\n- [ ] Doc checklist in docs/SECURITY.md\n- [ ] Verify HTTPS only prod\n- [ ] Confirm secrets not in repo\n- [ ] Role matrix table\n\n## Acceptance criteria (DoD)\nChecklist complete.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-3-polish",
+      "layer-qa"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Frontend] Root landing page marketing stub",
+    "body": "## Goal\nPublic entry.\n\n## Step-by-step checklist\n- [ ] `app/page.tsx` hero BrandVoice\n- [ ] CTA Login / Register\n- [ ] Tailwind layout\n- [ ] No auth required\n\n## Acceptance criteria (DoD)\nLanding renders.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-frontend"
+    ]
+  },
+  {
+    "title": "[Wave 0] [Layer: Backend] OpenAPI tags and route module split",
+    "body": "## Goal\nNavigable Swagger for juniors.\n\n## Step-by-step checklist\n- [ ] Split routers: auth, brands, posts, admin\n- [ ] Include in main\n- [ ] Tag metadata\n- [ ] Brief descriptions\n\n## Acceptance criteria (DoD)\nSwagger grouped by tag.\n\n## Estimated effort\n1h\n\n## Difficulty\nEasy\n",
+    "labels": [
+      "wave-0-foundation",
+      "layer-backend"
+    ]
+  }
+]
